@@ -1,0 +1,24 @@
+{
+  "name": "gu_project",
+  "version": "1",
+  "description": "This is the api for gu_project(Team project)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "Team MERN_GU_BD",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.4",
+    "node-mailer": "^0.1.1",
+    "nodemon": "^2.0.22"
+  }
+}
