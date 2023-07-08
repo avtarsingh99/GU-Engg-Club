@@ -15,3 +15,8 @@ Step 2 - Fetch limit and skip value from url const limit = req.query.limit; cons
 step 3 - const result = student.find().skip(skip).limit(limit);
 
 Note - Limit and skip value will be change as per your click.
+
+#mongoose query 
+.select("name email")
+only returns name and email
+.select("-password") exclude password

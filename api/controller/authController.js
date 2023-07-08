@@ -47,7 +47,7 @@ const login = async(req, res)=>{
     // try catch  block to handle error while resolving promises
     try {
         // search user using mail
-        const user = await findUser({email});
+        const user = await findUser({email:email});
 
         // if user in not in database return authentication error
         if(!user) return res.status(404).json(errorModal("authentication", "email", "User not found"));
