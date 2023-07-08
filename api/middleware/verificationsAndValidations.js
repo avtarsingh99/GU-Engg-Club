@@ -13,11 +13,12 @@ const verifyToken = async (req, res, next)=>{
     else return res.status(401).json({authenticationError:"You are not authenticated"});
 };
 const validateIsAdmin = async (req, res, next)=>{
-    const {email} = req.user?.email;
+    if(!req.user) res.status(404).json(errorModal("authentication", "email", "User not found"));
+    const email = req.user.email;
     try {
-        const user = await User.findOne(email);
+        const user = await User.findOne({email:email});
         if(!user) return res.status(404).json(errorModal("authentication", "email", "User not found"));
-        if(!user.isAdmin) return res.status(400).json(errorModal("unauthorised", "email", "User is not authorised"));
+        if(!user.isAdmin) return res.status(400).json(errorModal("unauthorised", "Access resitricted", "User is not authorised"));
         next();
     } catch (error) {
        return res.status(500).send(errorModal("server", "server", "Server error try again!"));
@@ -49,13 +50,13 @@ const validateName = (name)=>{
 }
 const validateForm = async (req, res, next) => {
     if (!req.body.email || !validateEmail(req.body.email)) {
-        return res.status(401).json(errorModal("authentication", "email", "Invalid email"));
+        return res.status(401).json(errorModal("Invalid Input", "email", "Invalid email"));
     }
     if(!req.body.registration_no || (isNaN(req.body.registration_no) !== false))
-        return res.status(401).json(errorModal("authentication", "registration_no", "Must be numeric"));
+        return res.status(401).json(errorModal("Invalid Input", "registration_no", "Must be numeric"));
     if(!req.body.name || !validateName(req.body.name))
-        return res.status(401).json(errorModal("authentication", "name", "Invalid Name"));
+        return res.status(401).json(errorModal("Invalid Input", "name", "Invalid Name"));
 
     return next();
 };
-module.exports = {validateForm, errorModal, validateEmail, verifyToken, validateIsAdmin};
+module.exports = {validateForm, errorModal, validateEmail, verifyToken, validateIsAdmin, validateName};

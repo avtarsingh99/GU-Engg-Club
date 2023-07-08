@@ -1,6 +1,7 @@
 const {validateEmail, errorModal} = require("../middleware/verificationsAndValidations");
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');// check if the user is present or not (should not be present by both email and registration_no)
+
 const findUser = async (credentails)=>{
     try {
         const user = await User.findOne({
@@ -62,6 +63,7 @@ const login = async(req, res)=>{
                 name:user.name,
                 avatar:user.avatar,
                 email:user.email,
+                id:user._id,
             },
             process.env.TOKEN_SECRET,
             { expiresIn: "1w" }

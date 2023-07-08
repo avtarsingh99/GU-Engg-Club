@@ -10,9 +10,10 @@ const UserSchema = new mongoose.Schema({
         last_name: { type: String, required: true }
     },
     avatar: { type: String, default: defaultAvatarImage },
+    avatar_id:{type:String},
     isAdmin: { type: Boolean, default: false },
     password: { type: String, required: true },
-    posts: [{ type: mongoose.Types.ObjectId, ref: "post", required: true }],
+    posts: [{ type: mongoose.Types.ObjectId, ref: "Posts", required: true }],
     pyq: [{ type: mongoose.Types.ObjectId, ref: "pyq", required: true }],
     notes: [{ type: mongoose.Types.ObjectId, ref: "notes", required: true }],
     projects: [{ type: mongoose.Types.ObjectId, ref: "projects", required: true }]

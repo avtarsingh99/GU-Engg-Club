@@ -1,6 +1,6 @@
 const {errorModal} = require('../middleware/verificationsAndValidations');
-const returnMailWrap = require('../middleware/mailWrapper');
-const {newRegistrationMail} = require('../middleware/mailContent');
+const returnMailWrap = require('./Templates/mailWrapper');
+const {newRegistrationMail} = require('./Templates/newRegistrationMail');
 let nodemailer = require('nodemailer');
 let transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
