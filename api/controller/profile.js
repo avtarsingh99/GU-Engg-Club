@@ -1,7 +1,9 @@
 const User = require('../models/User');
+const Token = require('../models/Token');
 const jwt = require('jsonwebtoken');
 const CryptoJS = require('crypto-js');
-const {errorModal} = require('../middleware/verificationsAndValidations');
+const crypto = require('crypto');
+const {errorModal, validateEmail} = require('../middleware/verificationsAndValidations');
 const deleteFile  = require('../utils/deletefile');
 
 // POST /profile/updateprofile
@@ -104,5 +106,44 @@ const getAdmins = async (req, res)=>{
         console.log(error);
         return res.status(500).json(errorModal("server", "server", "server error"));
     }
+};
+const resestPasswordToken = async (req, res, next)=>{
+    const {email} = req.body;
+    if (!validateEmail(email)) return res.status(401).json(errorModal("Validation", "Email", "Not a valid email address"));
+    try {
+        const user = await User.findOne({email:email});
+        if (!user) return res.status(401).json(errorModal("authentication", "username_email", "User not found"));
+        const resetToken = await crypto.randomBytes(32).toString('hex');
+        const token = new Token(
+            {
+                token: resetToken,
+                email: req.body.email,
+            }
+        );
+        await token.save();
+        req.email = email;
+        req.name = user.fullname;
+        req.redirectLink = 'https://meowchat.netlify.app/resetpassword/verify/' + resetToken;
+        req.type = 'Reset Password';
+        next();
+        
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send(errorModal("server", "server", "Server error try again!"));
+    }
+};
+const UpdatePassword = async (req, res)=>{
+    const { token, password } = req.body;
+    if (password.length < 8) return res.status(500).send(errorModal("password", "password", "At least 8 character long."));
+    try {
+        const userInfo = await Token.findOneAndDelete({ token: token });
+        if (!userInfo) return res.status(500).send(errorModal("Token", "Token", "Token expired"));
+        const email = userInfo._doc.email;
+        await User.findOneAndUpdate({ email }, { password: await CryptoJS.AES.encrypt(password, process.env.CRYPTO_SECRET).toString() });
+        return res.status(201).send(errorModal("Update", "Password", "Password is updated"));
+    } catch (error) {
+        return res.status(500).send(errorModal("server", "server", "Server error try again!"));
+    }
 }
-module.exports = {updateProfile, getProfile, getAdmins};
+
+module.exports = {updateProfile, getProfile, getAdmins, UpdatePassword, resestPasswordToken};
