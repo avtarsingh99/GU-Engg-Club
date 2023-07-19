@@ -6,6 +6,7 @@ const app = express();
 const auth = require('./routes/auth');
 const subject = require('./routes/subject');
 const post = require('./routes/post');
+const pyq = require('./routes/pyq');
 const notes = require('./routes/notes');
 const profile = require('./routes/profile');
 const cors = require('cors');
@@ -20,6 +21,7 @@ app.use('/api/subject', subject);
 app.use('/api/post', post);
 app.use('/api/notes', notes);
 app.use('/api/profile', profile);
+app.use('/api/pyq', pyq);
 // test api to check weather server is working or not
 app.get('/api/test', (req, res)=>res.status(200).json("Server is working"));
 app.listen(process.env.PORT, ()=>{
