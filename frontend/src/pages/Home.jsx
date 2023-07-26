@@ -1,7 +1,8 @@
+import { Container } from "@chakra-ui/react"
 export default function Home(){
     return (
-        <div>
+        <Container maxW={'xxl'} minH={'100dvh'}>
             Welcome Home !!
-        </div>
+        </Container>
     )
 }
