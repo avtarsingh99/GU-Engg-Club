@@ -1,20 +1,18 @@
-import { LOGIN_API } from '../lib/api/auth';
-import { useNavigate } from 'react-router-dom';
+import {Flex, Container, Box, Image } from '@chakra-ui/react';
+import LoginForm from '../components/Login/LoginForm';
+import LoginImage from '/android-chrome-512x512.png';
 export default function Login() {
-    const navigate = useNavigate();
-    const handleLogin = async () => {
-        const data = await LOGIN_API("rakeshdhariwal61@gmail.com", "newpassword");
-        if(!data.isError){
-            localStorage.setItem('token', data.token);
-            return navigate('/');
-        }
-        else{
-            alert(data.errorMessage);
-        }
-    }
+    
     return (
-        <div>
-            <button onClick={handleLogin}>Click me to login</button>
-        </div>
+        <Container bg="#f8f9fb" maxW='full'>
+            <Flex justifyContent='center' alignItems='center' w='90vw' maxW='1260px' mx='auto' >
+                <Box w='40%'>
+                    <Image src={LoginImage} alt='Gurugram University' objectFit='cover' boxSize='350px' mt='20px'></Image>
+                </Box>
+                <Box w='40%'>
+                    <LoginForm/>
+                </Box>
+            </Flex>    
+        </Container>
     )
 }
