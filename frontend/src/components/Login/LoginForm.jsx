@@ -1,70 +1,79 @@
 import React from 'react'
-import {Text, Center, Input, VStack, Heading, Box, Link, Button} from '@chakra-ui/react';
-import { AiOutlineEye , AiOutlineEyeInvisible } from 'react-icons/ai';
+import { FormControl, Input, FormLabel, Button, Spinner, Box, Heading, Link } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LOGIN_API } from '../../lib/api/auth';
-
+import FormContainer from '../../Theme/UIElements/FormContainer';
+import { CustomToast } from '../../Theme/UIElements/CustomToast';
 export const LoginForm = () => {
-    const [formData, setFormData] = useState({email:"",password:""})
-    const [showPassword, setShowPassword] = useState(false);
-    const navigate = useNavigate();
-  
-    function changeHandler(event) {
-      setFormData( (prevData) => (
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [errorInfo, setErrorInfo] = useState({ isError: false, errorFor: 'none' });
+  const [showSpinner, setShowSpinner] = useState(false);
+
+  const {addToast} = CustomToast();
+
+  const navigate = useNavigate();
+  function changeHandler(event) {
+    setFormData((prevData) => (
       {
-          ...prevData,
-          [event.target.name] : event.target.value
+        ...prevData,
+        [event.target.name]: event.target.value
       }
-      ))
+    ))
+  }
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setShowSpinner(true);
+    const res = await LOGIN_API(formData.email, formData.password);
+    setShowSpinner(false);
+    if (!res.isError) {
+      localStorage.setItem('token', res.data.accessToken);
+      return navigate('/');
     }
-    const handleLogin = async () => {
-        const data = await LOGIN_API("rakeshdhariwal61@gmail.com", "newpassword");
-        if(!data.isError){
-            localStorage.setItem('token', data.token);
-            return navigate('/');
-        }
-        else{
-            alert(data.errorMessage);
-        }
+    else {
+      const { isError, errorFor, errorMessage } = { ...res };
+      setErrorInfo({ isError, errorFor });
+      addToast({
+        title:errorFor,
+        message:errorMessage,
+        status:'error'
+      })
     }
-  
-  
-    return (
-      <Center h='100vh' mx='auto'>
-        <VStack borderColor='#2C333F' w='80%'  textColor='#161D29' padding='32px'>
-          <Heading mb='30px' padding='8px' fontSize='30px'>Welcome Back - Login to continue</Heading>
-          <Box w='100%'>
-            <Text mb='2px' fontSize='12px'>Email Address</Text>
-            <Input mb='20px' type='email' placeholder='Enter Email address' size='sm' rounded='0'/>
-          </Box>
-          <Box w='100%' position='relative'>
-            <Text mb='2px' fontSize='12px'>Email Address</Text>
-            <Input mb='6px' type={showPassword?("text"):("password")} placeholder='Enter password' size='sm' rounded='0'/>
-            <Box zIndex='1' w='20px' h='20px' position='absolute' right='5%' top='43%' cursor='pointer'  onClick={()=>setShowPassword((prev) => !prev)}>
-              {showPassword?(<AiOutlineEyeInvisible fontSize={24} fill='#AFB2FB'/>):(<AiOutlineEye fontSize={24} fill='#AFB2FB'/>)}
-            </Box>
-            <Link href='#'
-            _hover={{
-              color:'#AFB2BF',
-              textDecoration:'underline'
-            }}
-            position='absolute' top='95%' left='78%' w='100%' mb='36px' fontSize='8px'>Forgot Password?</Link>
-          </Box>
-          
-          <Box pt='32px' w='100%'>
-            <Button bg='blackAlpha.900' textColor='whiteAlpha.900' w='100%' rounded='0'
-            _hover={{
-              background:'white',
-              color:'black',
-              border:'1px solid black',
-              transition:'all 500 ease-in'
-            }}
-            onClick={handleLogin}>Sign In</Button>
-          </Box>
-        </VStack>
-      </Center>
-    );
+  }
+
+
+  return (
+    <FormContainer display='flex' flexDirection='column' gap={3} onSubmit={(e) => handleLogin(e)}>
+      <Heading size='xl'>Login to continue</Heading>
+      <FormControl>
+        <FormLabel>Email</FormLabel>
+        <Input
+          name='email'
+          placeholder='Enter your email'
+          type='text' onChange={(e) => changeHandler(e)}
+          isInvalid={errorInfo.isError && errorInfo.errorFor === 'email'}
+        />
+      </FormControl>
+      <FormControl>
+        <FormLabel>Password</FormLabel>
+        <Input
+          name='password'
+          type='password'
+          placeholder='Enter your email'
+          onChange={(e) => changeHandler(e)}
+          isInvalid={errorInfo.isError && errorInfo.errorFor === 'password'}
+        />
+      </FormControl>
+      <Link alignSelf={'flex-end'} variant={'simple-internal'}>Reset Password</Link>
+      <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
+        {
+          showSpinner ?
+            <Spinner /> :
+            <Button aria-label='login-btn' type='submit' variant='outline-bw'>Log In</Button>
+        }
+      </Box>
+    </FormContainer>
+  );
 }
 
 export default LoginForm

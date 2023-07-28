@@ -1,26 +1,30 @@
-import { chakra } from '@chakra-ui/react'
+import {  chakra } from '@chakra-ui/react'
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { VERIFY_TOKEN_API } from './lib/api/auth';
+import MainHeader from './components/NavHeader.jsx/MainHeader';
 const Main = chakra('main', {
   baseStyle: {
     width: '100%',
-    paddingTop: '10vh'
+    paddingTop: '10vh',
   },
 });
 export default function RootLayout() {
   const navigate = useNavigate();
+  const verifyToken = async ()=>{
+    const response = await  VERIFY_TOKEN_API();
+    if(response.isError)
+      navigate('/login');
+  }
   useEffect(()=>{
-    const token = localStorage.getItem("token");
-    if(!token)
-      navigate("/login");
-  }, []);
+    verifyToken();
+  }, [])
   return (
     <>
-      {/* add navheader here */}
-      <Main paddingX={{ base: '2%', md: '20%' }}>
+      <MainHeader/>
+      <Main >
           <Outlet />
       </Main>
-      {/* Place for footer*/}
     </>
   )
 }

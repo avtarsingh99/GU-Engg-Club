@@ -7,10 +7,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes >
+        {/* part 1  user logged in*/}
         <Route path='/' element={<RootLayout/>} >
           <Route index element={<Home/>}/>
-          <Route path='/home2' element={<Home/>}/>
+          <Route path='/post' element={<Home/>}/>
         </Route>
+
+        {/* part 2 */}
         <Route path='/login' element={<Login/>}/>
         <Route path='/*' element = {<RouteError/>}/>
       </Routes>
