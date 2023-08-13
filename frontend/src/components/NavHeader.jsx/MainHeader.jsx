@@ -8,7 +8,7 @@ export default function MainHeader() {
   return (
     <Header>
 
-      <Flex bg="white" blur={'opaque'} w={'100%'} h={'10vh'} justifyContent={'space-between'} alignItems={'center'} m={2} borderBottom={'1px solid black'}>
+      <Flex bg="white" blur={'opaque'} w={'100%'} h={'10vh'} justifyContent={'space-between'} alignItems={'center'} m={2} opacity={'1'}>
 
         <Box display={['none', 'flex']}>
           <Link href="/">

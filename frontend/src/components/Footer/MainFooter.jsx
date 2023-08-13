@@ -10,11 +10,11 @@ export default function MainFooter() {
   return (
     <Footer>
  
-        <Flex justifyContent={'space-between'} alignItems={'center'} m={2} w={'100%'} display={['flex', 'none']} >
-          <Link href='#' color={'blackAlpha.900'}><Icon as={GrHomeRounded} gap={2}></Icon></Link>
-          <Link href='#' color={'blackAlpha.900'}><Icon as={GrSearch} ></Icon></Link>
-          <Link href='#' color={'blackAlpha.900'}> <Icon as={GrNotes} ></Icon></Link>
-          <Link href='#' color={'blackAlpha.900'}><Icon as={GrCloudComputer} ></Icon></Link>
+        <Flex justifyContent={'space-between'} alignItems={'center'} textAlign={'center'} m={4} gap={2} w={'100%'} fontSize={'sm'} display={['flex', 'none']} >
+          <Link href='#' color={'blackAlpha.900'}><Icon as={GrHomeRounded} ></Icon><figcaption>Home</figcaption></Link>
+          <Link href='#' color={'blackAlpha.900'}><Icon as={GrSearch} ></Icon><figcaption>Posts</figcaption></Link>
+          <Link href='#' color={'blackAlpha.900'}> <Icon as={GrNotes} ></Icon><figcaption>Notes</figcaption></Link>
+          <Link href='#' color={'blackAlpha.900'}><Icon as={GrCloudComputer} ></Icon><figcaption>Projects</figcaption></Link>
         </Flex>
         
     </Footer>
