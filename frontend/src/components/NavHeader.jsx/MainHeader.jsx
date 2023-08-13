@@ -1,17 +1,14 @@
 import React from 'react'
 import { Box, Flex, Link, Avatar, IconButton } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { useState } from "react";
+import { HamburgerIcon, } from "@chakra-ui/icons";
 import Header from '../../Theme/UIElements/Header';
 
 export default function MainHeader() {
 
-  const [openMenuDisplay, setOpenMenuDisplay] = useState('none');
-
   return (
     <Header>
 
-      <Flex bg="red" w={'100%'} h={'10vh'} justifyContent={'space-between'} alignItems={'center'} m={2}>
+      <Flex bg="white" blur={'opaque'} w={'100%'} h={'10vh'} justifyContent={'space-between'} alignItems={'center'} m={2} borderBottom={'1px solid black'}>
 
         <Box display={['none', 'flex']}>
           <Link href="/">
@@ -20,9 +17,9 @@ export default function MainHeader() {
         </Box>
 
         <Flex gap={'5'} display={['none', 'flex']}>
-          <Link href="#" color={'white'} >Posts</Link>
-          <Link href="#" color={'white'}>Notes</Link>
-          <Link href="#" color={'white'}>Projects</Link>
+          <Link href="#" >Posts</Link>
+          <Link href="#" >Notes</Link>
+          <Link href="#" >Projects</Link>
         </Flex>
 
         <Box display={['none', 'flex']}>
@@ -32,8 +29,7 @@ export default function MainHeader() {
         <IconButton
           aria-label="Open Menu" size={'md'}
           mr={2} icon={<HamburgerIcon />}
-          display={['flex', 'none']}
-          onClick={() => setOpenMenuDisplay('flex')}>
+          display={['flex', 'none']}>
         </IconButton>
 
         <Box display={['flex', 'none']}>
@@ -45,32 +41,6 @@ export default function MainHeader() {
         <Box display={['flex', 'none']}>
           <Avatar />
         </Box>
-
-
-        <Flex flexDir={'column'}
-          bg={'gray.200'} h={'30vh'} border={'1px'}
-          w={'40%'} borderRadius={5}
-          mt={'20vh'}
-          zIndex={20} pos={'fixed'}
-          display={openMenuDisplay}>
-
-          <Flex justify={'flex-start'} mr={1}>
-            <IconButton
-              aria-label="Close Menu"
-              size={'sm'}
-              mt={2}
-              ml={2}
-              icon={<CloseIcon />}
-              onClick={() => setOpenMenuDisplay('none')}>
-            </IconButton>
-          </Flex>
-
-          <Flex flexDir={'column'} alignItems={'center'} >
-            <Link href="#" color={'black'}>Posts</Link>
-            <Link href="#" color={'black'}>Notes</Link>
-            <Link href="#" color={'black'}>Projects</Link>
-          </Flex>
-        </Flex>
 
       </Flex>
     </Header>

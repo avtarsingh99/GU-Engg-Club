@@ -2,7 +2,7 @@ import { chakra } from "@chakra-ui/react";
 
 const Header = chakra('header', {
   baseStyle: {
-    bg: 'red',
+    bg: 'white',
     width: '100%',
     position: 'fixed',
     top: '0px',
