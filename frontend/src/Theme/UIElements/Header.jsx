@@ -1,7 +1,8 @@
 import { chakra } from "@chakra-ui/react";
+
 const Header = chakra('header', {
   baseStyle: {
-    bg:'red',
+    bg: 'white',
     width: '100%',
     position: 'fixed',
     top: '0px',
@@ -13,10 +14,13 @@ const Header = chakra('header', {
     zIndex: 2,
   },
 })
+
+
 export default function NavHeader(props) {
+
   return (
     <Header {...props}>
-      
+
     </Header>
   )
 }

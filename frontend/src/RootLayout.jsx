@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { VERIFY_TOKEN_API } from './lib/api/auth';
 import MainHeader from './components/NavHeader.jsx/MainHeader';
+import MainFooter from './components/Footer/MainFooter';
 const Main = chakra('main', {
   baseStyle: {
     width: '100%',
@@ -25,6 +26,7 @@ export default function RootLayout() {
       <Main >
           <Outlet />
       </Main>
+      <MainFooter />
     </>
   )
 }
