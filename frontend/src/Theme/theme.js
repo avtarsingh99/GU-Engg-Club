@@ -29,7 +29,7 @@ const theme = extendTheme(
 );
 const wrapperPadding = {
     base: '10px 10px',
-    md: '10px 20px'
+    md: '10px 80px'
 };
 export { wrapperPadding };
 export default theme;

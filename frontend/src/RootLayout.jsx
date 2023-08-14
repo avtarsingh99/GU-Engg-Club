@@ -2,8 +2,8 @@ import {  chakra } from '@chakra-ui/react'
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { VERIFY_TOKEN_API } from './lib/api/auth';
-import MainHeader from './components/NavHeader.jsx/MainHeader';
-import MainFooter from './components/Footer/MainFooter';
+import NavHeader from './components/Navigation/NavHeader';
+import FloatingNav from './components/Navigation/FloatingNav';
 const Main = chakra('main', {
   baseStyle: {
     width: '100%',
@@ -22,11 +22,11 @@ export default function RootLayout() {
   }, [])
   return (
     <>
-      <MainHeader/>
+      <NavHeader/>
       <Main >
           <Outlet />
       </Main>
-      <MainFooter />
+      <FloatingNav/>
     </>
   )
 }
