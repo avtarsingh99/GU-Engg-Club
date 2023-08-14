@@ -28,8 +28,8 @@ const addPost = async (req, res)=>{
 };
 const getPost = async (req, res)=>{
     const type = req.query.type;
-    const limit = req.query.limit?req.query.limit:10;
-    const page = req.query.page?req.query.page-1:0;
+    const limit = req.query.limit?Math.abs(req.query.limit):10;
+    const page = req.query.page?Math.abs(req.query.page)-1:0;
     if(type !== undefined && type !== 'normal' && type !== 'pyq' && type !== 'notes' && type !== 'issue' && type !== 'project')
     return res.status(401).send(errorModal("Invalid", "Invalid", "Invalid Type"));
     try {
@@ -47,8 +47,8 @@ const getPost = async (req, res)=>{
 const getUserPost = async (req, res)=>{
     const author = req.user.id;
     const type = req.query.type;
-    const limit = req.query.limit?req.query.limit:10;
-    const page = req.query.page?req.query.page-1:0;
+    const limit = req.query.limit?Math.abs(req.query.limit):10;
+    const page = req.query.page?Math.abs(req.query.page)-1:0;
     if(type !== undefined && type !== 'normal' && type !== 'pyq' && type !== 'notes' && type !== 'issue' && type !== 'project')
         return res.status(401).send(errorModal("Invalid", "Invalid", "Invalid Type"));
     try {
