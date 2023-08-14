@@ -5,12 +5,12 @@ const verifyToken = async (req, res, next)=>{
     if(authHeader){
         const accessToken = authHeader.split(" ")[1];
         await jwt.verify(accessToken, process.env.TOKEN_SECRET, (err, user)=>{
-            if(err) return res.status(403).json({authenticationError:"You are unauthorized"});
+            if(err) return res.status(403).json(errorModal("unauthorised", "Invalid Token", "User is not authorised"));
             else req.user = user;
             next();
         })
     }
-    else return res.status(401).json({authenticationError:"You are not authenticated"});
+    else return res.status(403).json(errorModal("unauthorised", "Invalid Token", "User is not authorised"));
 };
 const validateIsAdmin = async (req, res, next)=>{
     if(!req.user) res.status(404).json(errorModal("authentication", "email", "User not found"));
